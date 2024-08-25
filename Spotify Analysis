@@ -1,0 +1,72 @@
+#For this Analysis Project, I downloaded Spotify data from Kaggle.
+#I created a table to store the Spotify data.
+# Lastly,I performed analytics on the data using SQL.
+
+
+#Creating the table: 
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness text NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL 
+)
+
+#Then I inserted the Spotify Data .csv into the table.
+
+#Lastly, I performed Data Exploration using SQL in the following queries
+
+#Which Artist has the record with the most danceability?
+SELECT artist_name, danceability,track_name
+FROM Spotifydata
+WHERE danceability =
+(SELECT MAX(danceability) FROM Spotifydata);
+
+#What is the name of the record with the least popularity ( include it's popularity) ?
+SELECT track_name, popularity
+FROM SpotifyData
+ORDER BY popularity ASC
+LIMIT 1;
+
+#List all the tracks made by the Artist 'BTS'
+SELECT track_name, artist_name
+FROM Spotifydata
+WHERE artist_name='BTS';
+
+#Who is the most popular artist?
+SELECT Artist_name
+FROM Spotifydata
+ORDER BY popularity DESC
+LIMIT 1;
+
+#What is the average popularity of each artist's tracks on Spotify?
+SELECT artist_name, (AVG(popularity)) AS AveragePopularity
+FROM SpotifyData
+GROUP BY artist_name
+ORDER BY AveragePopularity DESC;
+
+# Which tracks have a duration of more than 3 minutes but no more than 3.5 minutes?
+SELECT track_name,duration_ms
+FROM Spotifydata
+WHERE duration_ms >180000
+AND duration_ms <=210000
+ORDER BY duration_ms ASC;
+
+# Find out how many tracks each artist has Then, order from least to greatest.
+SELECT artist_name,(COUNT(track_name)) AS TotalTracks
+FROM SpotifyData
+GROUP BY artist_name
+ORDER BY TotalTracks ASC;
